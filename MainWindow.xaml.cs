@@ -13,6 +13,9 @@ namespace SecureExamBrowser
         // URL cadangan yang dipakai jika config.txt tidak ditemukan atau kosong.
         private const string DefaultUrl = "https://simple-ujian.web.app/";
 
+        // Keyboard hook untuk memblokir tombol sistem (Phase 3).
+        private KeyboardHook? _keyboardHook;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,8 +33,18 @@ namespace SecureExamBrowser
             {
                 Activate();
                 Focus();
+
+                // Pasang keyboard hook (memblokir Alt+Tab, Win, Alt+F4, Ctrl+Esc).
+                // [TEMPORARY] Untuk sekarang, hotkey Ctrl+Shift+Q -> Close().
+                // Di Phase 4, aksi keluar diganti dengan prompt password admin.
+                _keyboardHook = new KeyboardHook(onExitRequested: Close);
+                _keyboardHook.Install();
+
                 await InitializeWebViewAsync();
             };
+
+            // Saat jendela ditutup, WAJIB lepas hook agar tidak terjadi memory leak / lag OS.
+            Closed += (_, _) => _keyboardHook?.Dispose();
         }
 
         /// <summary>
