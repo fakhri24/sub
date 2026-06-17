@@ -18,6 +18,9 @@
 
     <!-- Nama file .exe hasil build. -->
     <AssemblyName>SecureExamBrowser</AssemblyName>
+
+    <!-- Deklarasikan target platform Windows 64-bit untuk publish (Phase 5). -->
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
