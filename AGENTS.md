@@ -12,7 +12,7 @@ The application will act as a secure "wrapper" around a web-based examination pl
 - **Framework:** .NET 8.0 or .NET 9.0 (WPF - Windows Presentation Foundation)
 - **Web Component:** Microsoft Edge WebView2 (Chromium-based)
 - **Target OS:** Windows 10 and Windows 11
-- **Deployment Goal:** Framework-Dependent Single-File Executable (~3MB - 5MB)
+- **Deployment Goal:** Self-Contained Single-File Executable. The `.NET 8 runtime is bundled INSIDE the `.exe` so target laptops do NOT need .NET installed. File size is larger (~70MB - 150MB) and this trade-off is acceptable in exchange for zero-dependency, plug-and-play distribution to student machines.
 
 ### ⚠️ IMPORTANT: Development Workflow Notes for the Agent
 
@@ -66,4 +66,4 @@ When asked to write code, please provide:
 
 1. The exact XAML layout for `MainWindow.xaml`.
 2. The complete C# code-behind for `MainWindow.xaml.cs` containing the window initialization, WebView2 setup, and low-level keyboard hook logic.
-3. Detailed explanations on how to safely compile the project using the `dotnet publish` CLI command for Windows.
+3. Detailed explanations on how to safely compile the project into a **self-contained single-file `.exe`** using the `dotnet publish` CLI command for Windows (`--self-contained true -r win-x64 /p:PublishSingleFile=true`), so the output runs on any Windows 10/11 machine without requiring a separate .NET installation.

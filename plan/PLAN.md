@@ -12,7 +12,7 @@ This document outlines the step-by-step development phases for the minimalist lo
 | **Phase 2** | The WebView        | Integrate Chromium browser to load the exam URL.   | Microsoft Edge WebView2 NuGet          |
 | **Phase 3** | The Lockdown       | Block system shortcuts (Alt+Tab, Win Key, etc.).   | Windows API Hooks (`SetWindowsHookEx`) |
 | **Phase 4** | The Security Layer | Implement Admin Password prompt on exit attempt.   | WPF Window Closing Events & Dialogs    |
-| **Phase 5** | The Deployment     | Compile into a lightweight single-file executable. | `dotnet publish` CLI                   |
+| **Phase 5** | The Deployment     | Compile into a self-contained single-file executable (no .NET install needed). | `dotnet publish` CLI                   |
 
 ---
 
@@ -54,11 +54,11 @@ This document outlines the step-by-step development phases for the minimalist lo
 
 ### 🟦 Phase 5: Finalisasi & Build (The Deployment)
 
-- **Goal:** Compile the C# source code into a highly optimized, single-file executable under 5MB.
+- **Goal:** Compile the C# source code into a self-contained, single-file executable that runs on any Windows 10/11 machine WITHOUT requiring a separate .NET installation.
 - **Requirements:**
   - Use the `dotnet publish` CLI command targeted for `win-x64`.
-  - Apply Framework-Dependent deployment (`--self-contained false`) to minimize file size.
-  - Bundle all assets into one standalone `.exe` (`/p:PublishSingleFile=true`).
+  - Apply **Self-Contained** deployment (`--self-contained true`) so the .NET 8 runtime is bundled inside the `.exe`. Larger file size (~70MB - 150MB) is an accepted trade-off for zero-dependency, plug-and-play distribution.
+  - Bundle everything into one standalone `.exe` (`/p:PublishSingleFile=true`). Optionally enable compression (`/p:EnableCompressionInSingleFile=true`) to reduce size.
 
 ---
 
