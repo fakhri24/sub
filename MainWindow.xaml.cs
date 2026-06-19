@@ -167,9 +167,20 @@ namespace SimpleUjianBrowser
             // biasa) dan menerapkan alur lockdown (mis. logout -> navigasi ke exitUrl
             // yang memicu auto-quit di OnNavigationStarting). Lihat js/lockdown.js di
             // repo web (deteksi via UA token ATAU window.SimpleUjianBrowser).
-            settings.UserAgent += " SimpleUjianBrowser/1.0";
-            await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(
-                "window.SimpleUjianBrowser = { version: '1.0', platform: 'webview2' };");
+            //
+            // Bersifat BEST-EFFORT: dibungkus try/catch agar kegagalan menyetel marker
+            // (mis. properti tak didukung di runtime tertentu) TIDAK menghentikan
+            // pemuatan konfigurasi & navigasi di langkah berikutnya.
+            try
+            {
+                settings.UserAgent += " SimpleUjianBrowser/1.0";
+                await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(
+                    "window.SimpleUjianBrowser = { version: '1.0', platform: 'webview2' };");
+            }
+            catch
+            {
+                // Marker gagal dipasang -> abaikan; aplikasi tetap lanjut memuat ujian.
+            }
 
             // --- 4. Sembunyikan overlay saat halaman selesai dimuat ------------------
             WebView.CoreWebView2.NavigationCompleted += (_, args) =>
