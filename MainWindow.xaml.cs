@@ -162,6 +162,15 @@ namespace SimpleUjianBrowser
             settings.AreBrowserAcceleratorKeysEnabled = false;
             settings.IsStatusBarEnabled = false;
 
+            // --- 3b. Marker "Simple Ujian Browser" -----------------------------------
+            // Agar web app mengenali bahwa halaman dibuka di dalam SUB (bukan browser
+            // biasa) dan menerapkan alur lockdown (mis. logout -> navigasi ke exitUrl
+            // yang memicu auto-quit di OnNavigationStarting). Lihat js/lockdown.js di
+            // repo web (deteksi via UA token ATAU window.SimpleUjianBrowser).
+            settings.UserAgent += " SimpleUjianBrowser/1.0";
+            await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(
+                "window.SimpleUjianBrowser = { version: '1.0', platform: 'webview2' };");
+
             // --- 4. Sembunyikan overlay saat halaman selesai dimuat ------------------
             WebView.CoreWebView2.NavigationCompleted += (_, args) =>
             {
