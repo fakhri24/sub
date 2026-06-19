@@ -11,7 +11,21 @@ file `.exe` self-contained** yang bisa langsung dijalankan di laptop siswa
 
 ## 1. Perintah Build (Self-Contained Single-File)
 
-Jalankan di PowerShell, dari dalam folder `sub`:
+Jalankan di PowerShell, dari dalam folder proyek. **Copy satu baris ini** (paling aman, tidak terpecah saat paste):
+
+```powershell
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true /p:EnableCompressionInSingleFile=true
+```
+
+> ⚠️ **Harus pakai perintah lengkap di atas.** `.csproj` sengaja dibuat polos,
+> jadi `dotnet publish -c Release` saja (tanpa flag) **tidak** akan jadi 1 file —
+> hasilnya banyak `.dll` + folder `runtimes\`.
+>
+> 💡 Hasil 1 file ada di sub-folder **`publish\`**, bukan di folder `win-x64\`
+> induknya (yang itu memang penuh `.dll` hasil build mentah).
+
+<details>
+<summary>Versi multi-baris (lebih enak dibaca, opsional)</summary>
 
 ```powershell
 dotnet publish -c Release -r win-x64 --self-contained true `
@@ -19,6 +33,11 @@ dotnet publish -c Release -r win-x64 --self-contained true `
   /p:IncludeNativeLibrariesForSelfExtract=true `
   /p:EnableCompressionInSingleFile=true
 ```
+
+> Catatan: backtick (`` ` ``) di akhir baris itu penanda "lanjut ke baris
+> berikutnya" khusus PowerShell. Jangan sampai ada spasi setelah backtick.
+
+</details>
 
 ### Arti tiap bagian
 
