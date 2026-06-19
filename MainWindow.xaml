@@ -69,19 +69,29 @@
         <wv2:WebView2 x:Name="WebView" Visibility="Collapsed" />
 
         <!--
-            Overlay status di tengah layar. Dipakai untuk menampilkan
-            pesan loading ATAU pesan error (mis. WebView2 Runtime belum
-            terpasang). Akan disembunyikan begitu halaman berhasil dimuat.
+            Overlay status di tengah layar. Dipakai untuk menampilkan pesan
+            loading/error (mis. Runtime belum terpasang atau gagal memuat config),
+            plus tombol "Coba lagi" yang hanya muncul saat config gagal diambil.
+            Disembunyikan begitu halaman berhasil dimuat.
         -->
-        <TextBlock x:Name="StatusText"
-                   Text="Menyiapkan ujian..."
-                   Foreground="#CDD6F4"
-                   FontSize="24"
-                   TextWrapping="Wrap"
-                   TextAlignment="Center"
-                   MaxWidth="700"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center" />
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="StatusText"
+                       Text="Menyiapkan ujian..."
+                       Foreground="#CDD6F4"
+                       FontSize="24"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"
+                       MaxWidth="700" />
+
+            <Button x:Name="RetryButton"
+                    Content="Coba lagi"
+                    Click="RetryButton_Click"
+                    Style="{StaticResource ToolbarButton}"
+                    Background="#89B4FA"
+                    HorizontalAlignment="Center"
+                    Margin="0,20,0,0"
+                    Visibility="Collapsed" />
+        </StackPanel>
 
         <!--
             Toolbar di pojok kanan-atas: info baterai, jam, tombol Muat ulang,
